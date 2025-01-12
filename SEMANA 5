@@ -1,0 +1,64 @@
+# Este programa realiza la conversión entre metros y centímetros.
+# El usuario puede elegir entre convertir de metros a centímetros o de centímetros a metros.
+# Utiliza tipos de datos como entero (integer), decimal (float), cadena de texto (string) y booleano.
+
+def convertir_metros_a_centimetros(metros):
+    """Convierte una cantidad de metros a centímetros."""
+    return metros * 100
+
+def convertir_centimetros_a_metros(centimetros):
+    """Convierte una cantidad de centímetros a metros."""
+    return centimetros / 100
+
+def main():
+    """Función principal del programa que interactúa con el usuario."""
+    # Mostrar un mensaje de bienvenida
+    print("Bienvenido al programa de conversión de unidades de longitud.")
+    
+    # Preguntar al usuario si quiere realizar una conversión
+    opcion = input("¿Quieres convertir de metros a centímetros o de centímetros a metros? (m/c): ").strip().lower()
+    
+    # Validar si la opción ingresada es correcta
+    if opcion == 'm':
+        # Convertir de metros a centímetros
+        try:
+            metros = float(input("Ingresa la cantidad de metros que deseas convertir: "))
+            centimetros = convertir_metros_a_centimetros(metros)
+            print(f"{metros} metros son {centimetros} centímetros.")
+        except ValueError:
+            print("Por favor, ingresa un número válido.")
+    
+    elif opcion == 'c':
+        # Convertir de centímetros a metros
+        try:
+            centimetros = float(input("Ingresa la cantidad de centímetros que deseas convertir: "))
+            metros = convertir_centimetros_a_metros(centimetros)
+            print(f"{centimetros} centímetros son {metros} metros.")
+        except ValueError:
+            print("Por favor, ingresa un número válido.")
+    
+    else:
+        # Opción inválida
+        print("Opción no válida. Por favor, elige 'm' para metros a centímetros o 'c' para centímetros a metros.")
+    
+    # Preguntar si el usuario desea realizar otra conversión
+    continuar = input("¿Quieres realizar otra conversión? (s/n): ").strip().lower()
+    
+    # Validar la respuesta para continuar o finalizar
+    if continuar == 's':
+        main()  # Llamada recursiva para seguir con el proceso
+    else:
+        print("¡Gracias por usar el programa!")
+
+# Llamada a la función principal para iniciar el programa
+if __name__ == "__main__":
+    main()
+Descripción:
+Funcionalidad: Este programa convierte unidades de longitud, específicamente metros a centímetros y viceversa.
+Tipos de datos:
+float se usa para manejar números decimales (como las cantidades de metros o centímetros).
+string se usa para almacenar las respuestas del usuario (como las opciones de conversión y el deseo de continuar).
+boolean se implícitamente maneja cuando validamos si el usuario quiere continuar o no.
+integer es utilizado indirectamente en los cálculos, aunque el tipo de dato principal en este caso es float.
+Identificadores: Se siguen las convenciones de nombres en snake_case como convertir_metros_a_centimetros, convertir_centimetros_a_metros, etc.
+Comentarios: Se incluyen comentarios explicativos sobre cada parte del código.
