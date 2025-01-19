@@ -1,0 +1,188 @@
+# Clase base que representa un vehículo
+class Vehiculo:
+    def __init__(self, marca, modelo, año):
+        # Atributos privados (encapsulación)
+        self.__marca = marca
+        self.__modelo = modelo
+        self.__año = año
+    
+    # Métodos getter y setter para los atributos privados
+    def get_marca(self):
+        return self.__marca
+    
+    def set_marca(self, marca):
+        self.__marca = marca
+    
+    def get_modelo(self):
+        return self.__modelo
+    
+    def set_modelo(self, modelo):
+        self.__modelo = modelo
+    
+    def get_año(self):
+        return self.__año
+    
+    def set_año(self, año):
+        self.__año = año
+    
+    # Método para mostrar información del vehículo
+    def mostrar_info(self):
+        return f"Marca: {self.__marca}, Modelo: {self.__modelo}, Año: {self.__año}"
+
+# Clase derivada que hereda de Vehiculo
+class Automovil(Vehiculo):
+    def __init__(self, marca, modelo, año, tipo_motor):
+        # Llamada al constructor de la clase base
+        super().__init__(marca, modelo, año)
+        self.tipo_motor = tipo_motor  # Atributo adicional
+
+    # Sobrescritura del método 'mostrar_info' para incluir el tipo de motor
+    def mostrar_info(self):
+        info_base = super().mostrar_info()  # Llamamos al método de la clase base
+        return f"{info_base}, Tipo de motor: {self.tipo_motor}"
+
+    # Método adicional para encender el automóvil
+    def encender(self):
+        print(f"El {self.get_marca()} {self.get_modelo()} está encendido.")
+
+# Clase derivada que hereda de Vehiculo
+class Motocicleta(Vehiculo):
+    def __init__(self, marca, modelo, año, cilindrada):
+        # Llamada al constructor de la clase base
+        super().__init__(marca, modelo, año)
+        self.cilindrada = cilindrada  # Atributo adicional
+
+    # Sobrescritura del método 'mostrar_info' para incluir la cilindrada
+    def mostrar_info(self):
+        info_base = super().mostrar_info()  # Llamamos al método de la clase base
+        return f"{info_base}, Cilindrada: {self.cilindrada}cc"
+    
+    # Método adicional para encender la motocicleta
+    def encender(self):
+        print(f"La motocicleta {self.get_marca()} {self.get_modelo()} está encendida.")
+
+# Polimorfismo: Método que recibe una lista de vehículos y los enciende
+def encender_vehiculos(vehiculos):
+    for vehiculo in vehiculos:
+        vehiculo.encender()  # Llamada al método 'encender' de cada vehículo
+
+# Crear instancias de las clases
+vehiculo1 = Automovil("Toyota", "Corolla", 2020, "Gasolina")
+vehiculo2 = Motocicleta("Yamaha", "YZF-R1", 2023, 1000)
+
+# Mostrar información de los vehículos
+print(vehiculo1.mostrar_info())  # Mostrar información del automóvil
+print(vehiculo2.mostrar_info())  # Mostrar información de la motocicleta
+
+# Usar polimorfismo para encender los vehículos
+vehiculos = [vehiculo1, vehiculo2]
+encender_vehiculos(vehiculos)
+
+
+A continuación, te proporcionaré un ejemplo completo de un programa en Python que cumple con los requisitos solicitados:
+
+Clase base y clase derivada (herencia).
+Encapsulación en al menos una clase.
+Polimorfismo a través de métodos sobrescritos.
+python
+Copiar
+# Clase base que representa un vehículo
+class Vehiculo:
+    def __init__(self, marca, modelo, año):
+        # Atributos privados (encapsulación)
+        self.__marca = marca
+        self.__modelo = modelo
+        self.__año = año
+    
+    # Métodos getter y setter para los atributos privados
+    def get_marca(self):
+        return self.__marca
+    
+    def set_marca(self, marca):
+        self.__marca = marca
+    
+    def get_modelo(self):
+        return self.__modelo
+    
+    def set_modelo(self, modelo):
+        self.__modelo = modelo
+    
+    def get_año(self):
+        return self.__año
+    
+    def set_año(self, año):
+        self.__año = año
+    
+    # Método para mostrar información del vehículo
+    def mostrar_info(self):
+        return f"Marca: {self.__marca}, Modelo: {self.__modelo}, Año: {self.__año}"
+
+# Clase derivada que hereda de Vehiculo
+class Automovil(Vehiculo):
+    def __init__(self, marca, modelo, año, tipo_motor):
+        # Llamada al constructor de la clase base
+        super().__init__(marca, modelo, año)
+        self.tipo_motor = tipo_motor  # Atributo adicional
+
+    # Sobrescritura del método 'mostrar_info' para incluir el tipo de motor
+    def mostrar_info(self):
+        info_base = super().mostrar_info()  # Llamamos al método de la clase base
+        return f"{info_base}, Tipo de motor: {self.tipo_motor}"
+
+    # Método adicional para encender el automóvil
+    def encender(self):
+        print(f"El {self.get_marca()} {self.get_modelo()} está encendido.")
+
+# Clase derivada que hereda de Vehiculo
+class Motocicleta(Vehiculo):
+    def __init__(self, marca, modelo, año, cilindrada):
+        # Llamada al constructor de la clase base
+        super().__init__(marca, modelo, año)
+        self.cilindrada = cilindrada  # Atributo adicional
+
+    # Sobrescritura del método 'mostrar_info' para incluir la cilindrada
+    def mostrar_info(self):
+        info_base = super().mostrar_info()  # Llamamos al método de la clase base
+        return f"{info_base}, Cilindrada: {self.cilindrada}cc"
+    
+    # Método adicional para encender la motocicleta
+    def encender(self):
+        print(f"La motocicleta {self.get_marca()} {self.get_modelo()} está encendida.")
+
+# Polimorfismo: Método que recibe una lista de vehículos y los enciende
+def encender_vehiculos(vehiculos):
+    for vehiculo in vehiculos:
+        vehiculo.encender()  # Llamada al método 'encender' de cada vehículo
+
+# Crear instancias de las clases
+vehiculo1 = Automovil("Toyota", "Corolla", 2020, "Gasolina")
+vehiculo2 = Motocicleta("Yamaha", "YZF-R1", 2023, 1000)
+
+# Mostrar información de los vehículos
+print(vehiculo1.mostrar_info())  # Mostrar información del automóvil
+print(vehiculo2.mostrar_info())  # Mostrar información de la motocicleta
+
+# Usar polimorfismo para encender los vehículos
+vehiculos = [vehiculo1, vehiculo2]
+encender_vehiculos(vehiculos)
+
+Explicación del Código:
+Clase base Vehiculo:
+
+Se define la clase base Vehiculo con atributos privados (encapsulación) __marca, __modelo, y __año.
+Los métodos get_ y set_ permiten acceder y modificar estos atributos de forma controlada.
+Se incluye un método mostrar_info para mostrar la información básica del vehículo.
+Clase derivada Automovil:
+
+La clase Automovil hereda de Vehiculo y agrega un nuevo atributo tipo_motor.
+El método mostrar_info es sobrescrito para incluir el tipo de motor del automóvil.
+También se incluye un método encender que imprime un mensaje indicando que el automóvil está encendido.
+Clase derivada Motocicleta:
+
+La clase Motocicleta también hereda de Vehiculo y agrega un atributo cilindrada.
+Similar a la clase Automovil, sobrescribe el método mostrar_info para incluir la cilindrada de la motocicleta.
+También incluye un método encender que imprime un mensaje indicando que la motocicleta está encendida.
+Polimorfismo:
+
+Se define una función encender_vehiculos que toma una lista de vehículos (pueden ser instancias de Automovil, Motocicleta, o cualquier otra clase derivada de Vehiculo).
+Esta función invoca el método encender de cada vehículo, demostrando el polimorfismo. Aunque los métodos encender son diferentes en las clases derivadas
