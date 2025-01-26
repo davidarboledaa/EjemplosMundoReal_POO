@@ -1,0 +1,48 @@
+class ConexionBaseDeDatos:
+    def __init__(self, nombre_base_datos):
+        """
+        Constructor: inicializa los atributos de la clase.
+        Se llama automáticamente cuando se crea una nueva instancia de la clase.
+        Aquí, inicializamos el nombre de la base de datos y simulamos la conexión.
+        """
+        self.nombre_base_datos = nombre_base_datos
+        self.conexion_abierta = True  # Simula que la conexión está abierta
+        print(f"Conexión abierta a la base de datos: {self.nombre_base_datos}")
+
+    def ejecutar_query(self, query):
+        """
+        Método simulado para ejecutar una consulta en la base de datos.
+        """
+        if self.conexion_abierta:
+            print(f"Ejecutando consulta: {query}")
+        else:
+            print("Error: No hay conexión abierta a la base de datos.")
+    
+    def __del__(self):
+        """
+        Destructor: llamado automáticamente cuando el objeto es destruido.
+        Realiza tareas de limpieza, como cerrar la conexión.
+        """
+        if self.conexion_abierta:
+            print(f"Cerrando la conexión a la base de datos: {self.nombre_base_datos}")
+            self.conexion_abierta = False
+        else:
+            print("La conexión ya estaba cerrada.")
+
+# Crear un objeto de la clase ConexionBaseDeDatos
+conexion = ConexionBaseDeDatos("MiBaseDeDatos")
+conexion.ejecutar_query("SELECT * FROM usuarios")
+
+# Cuando el objeto salga del ámbito (por ejemplo, al final del programa o al eliminarlo manualmente),
+# el destructor será llamado automáticamente.
+del conexion
+Explicación del código:
+Clase ConexionBaseDeDatos:
+
+__init__ (Constructor): Este método se llama cuando se crea una nueva instancia de la clase. Inicializa el nombre de la base de datos y simula que se establece una conexión a la base de datos.
+ejecutar_query: Un método adicional que simula la ejecución de una consulta en la base de datos, siempre que la conexión esté abierta.
+__del__ (Destructor): Este método se llama automáticamente cuando el objeto se elimina o cuando ya no hay referencias a él (es destruido por el recolector de basura de Python). Su tarea es cerrar la conexión a la base de datos, si está abierta.
+Instanciación de la clase y uso del objeto:
+
+Se crea un objeto conexion de la clase ConexionBaseDeDatos, lo que invoca el constructor (__init__).
+Después de ejecutar una consulta, se elimina manualmente el objeto con del conexion, lo que invoca el destructor (__del__), que simula el cierre de la conexión.
