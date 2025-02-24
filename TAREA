@@ -1,0 +1,184 @@
+import os
+
+class Producto:
+    def __init__(self, id, nombre, cantidad, precio):
+        self.id = id
+        self.nombre = nombre
+        self.cantidad = cantidad
+        self.precio = precio
+
+    # Getters y setters para cada atributo
+    def get_id(self):
+        return self.id
+
+    def set_id(self, id):
+        self.id = id
+
+    def get_nombre(self):
+        return self.nombre
+
+    def set_nombre(self, nombre):
+        self.nombre = nombre
+
+    def get_cantidad(self):
+        return self.cantidad
+
+    def set_cantidad(self, cantidad):
+        self.cantidad = cantidad
+
+    def get_precio(self):
+        return self.precio
+
+    def set_precio(self, precio):
+        self.precio = precio
+
+    def __str__(self):  # Para mostrar información del producto de forma legible
+        return f"ID: {self.id}, Nombre: {self.nombre}, Cantidad: {self.cantidad}, Precio: {self.precio}"
+
+
+class Inventario:
+    def __init__(self, archivo_inventario="inventario.txt"):
+        self.productos = []
+        self.archivo_inventario = archivo_inventario
+        self.cargar_inventario()  # Cargar el inventario desde el archivo al iniciar
+
+    def cargar_inventario(self):
+        try:
+            if not os.path.exists(self.archivo_inventario):
+                open(self.archivo_inventario, 'w').close()  # Crear archivo si no existe
+            with open(self.archivo_inventario, 'r') as archivo:
+                for linea in archivo:
+                    id, nombre, cantidad, precio = linea.strip().split(',')
+                    self.productos.append(Producto(int(id), nombre, int(cantidad), float(precio)))
+            print("Inventario cargado correctamente.")
+        except FileNotFoundError:
+            print(f"Error: No se encontró el archivo {self.archivo_inventario}.")
+        except PermissionError:
+            print(f"Error: No tienes permisos para acceder a {self.archivo_inventario}.")
+        except ValueError:
+            print(f"Error: El archivo {self.archivo_inventario} está corrupto o tiene un formato incorrecto.")
+
+    def guardar_inventario(self):
+        try:
+            with open(self.archivo_inventario, 'w') as archivo:
+                for producto in self.productos:
+                    archivo.write(f"{producto.get_id()},{producto.get_nombre()},{producto.get_cantidad()},{producto.get_precio()}\n")
+            print("Inventario guardado correctamente.")
+        except FileNotFoundError:
+            print(f"Error: No se encontró el archivo {self.archivo_inventario}.")
+        except PermissionError:
+            print(f"Error: No tienes permisos para acceder a {self.archivo_inventario}.")
+
+    def añadir_producto(self, producto):
+        if self.buscar_producto_por_id(producto.get_id()):
+            print("Error: Ya existe un producto con ese ID.")
+        else:
+            self.productos.append(producto)
+            self.guardar_inventario()
+            print("Producto añadido correctamente.")
+
+    def eliminar_producto(self, id):
+        for producto in self.productos:
+            if producto.get_id() == id:
+                self.productos.remove(producto)
+                self.guardar_inventario()
+                print("Producto eliminado correctamente.")
+                return
+        print("Error: No se encontró ningún producto con ese ID.")
+
+    def actualizar_producto(self, id, cantidad=None, precio=None):
+        for producto in self.productos:
+            if producto.get_id() == id:
+                if cantidad is not None:
+                    producto.set_cantidad(cantidad)
+                if precio is not None:
+                    producto.set_precio(precio)
+                self.guardar_inventario()
+                print("Producto actualizado correctamente.")
+                return
+        print("Error: No se encontró ningún producto con ese ID.")
+
+    def buscar_producto_por_nombre(self, nombre):
+        resultados = []
+        for producto in self.productos:
+            if nombre.lower() in producto.get_nombre().lower():  # Búsqueda insensible a mayúsculas
+                resultados.append(producto)
+        return resultados
+
+    def buscar_producto_por_id(self, id):
+        for producto in self.productos:
+            if producto.get_id() == id:
+                return producto
+        return None
+
+    def mostrar_inventario(self):
+        if not self.productos:
+            print("El inventario está vacío.")
+        else:
+            print("Inventario:")
+            for producto in self.productos:
+                print(producto)
+
+
+# Interfaz de usuario en la consola
+inventario = Inventario()
+
+while True:
+    print("\n--- Menú de Gestión de Inventario ---")
+    print("1. Añadir producto")
+    print("2. Eliminar producto")
+    print("3. Actualizar producto")
+    print("4. Buscar producto por nombre")
+    print("5. Mostrar inventario")
+    print("6. Salir")
+
+    opcion = input("Seleccione una opción: ")
+
+    try:
+        if opcion == '1':
+            id = int(input("ID del producto: "))
+            nombre = input("Nombre del producto: ")
+            cantidad = int(input("Cantidad: "))
+            precio = float(input("Precio: "))
+            producto = Producto(id, nombre, cantidad, precio)
+            inventario.añadir_producto(producto)
+        elif opcion == '2':
+            id = int(input("ID del producto a eliminar: "))
+            inventario.eliminar_producto(id)
+        elif opcion == '3':
+            id = int(input("ID del producto a actualizar: "))
+            cantidad = input("Nueva cantidad (dejar en blanco para no cambiar): ")
+            precio = input("Nuevo precio (dejar en blanco para no cambiar): ")
+            cantidad = int(cantidad) if cantidad else None
+            precio = float(precio) if precio else None
+            inventario.actualizar_producto(id, cantidad, precio)
+        elif opcion == '4':
+            nombre = input("Nombre a buscar: ")
+            resultados = inventario.buscar_producto_por_nombre(nombre)
+            if resultados:
+                print("Resultados de la búsqueda:")
+                for producto in resultados:
+                    print(producto)
+            else:
+                print("No se encontraron productos con ese nombre.")
+        elif opcion == '5':
+            inventario.mostrar_inventario()
+        elif opcion == '6':
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+    except ValueError:
+        print("Error: Por favor, ingrese valores numéricos para ID, cantidad y precio.")
+        Cambios clave:
+
+Carga y guardado de inventario:
+Se añaden los métodos cargar_inventario() y guardar_inventario() para leer y escribir en el archivo inventario.txt.
+El método cargar_inventario() se llama al inicio para cargar los productos existentes.
+El método guardar_inventario() se llama después de añadir, eliminar o actualizar un producto.
+Manejo de excepciones:
+Se utilizan bloques try...except para capturar FileNotFoundError, PermissionError y ValueError durante la manipulación de archivos.
+Se maneja el caso en que el archivo no existe, creándolo si es necesario.
+Interfaz de usuario:
+Se actualizan los mensajes para informar al usuario sobre el éxito o fallo de las operaciones de archivo.
+Formato del archivo:
+El archivo inventario.txt almacena los productos en formato CSV (valores separados por comas).
