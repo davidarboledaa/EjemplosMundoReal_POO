@@ -1,0 +1,137 @@
+class Libro:
+    def __init__(self, titulo, autor, categoria, isbn):
+        self.titulo = titulo
+        self.autor = autor
+        self.categoria = categoria
+        self.isbn = isbn
+
+class Usuario:
+    def __init__(self, nombre, id_usuario):
+        self.nombre = nombre
+        self.id_usuario = id_usuario
+        self.libros_prestados = []
+
+class Biblioteca:
+    def __init__(self):
+        self.libros = {}
+        self.usuarios = set()
+
+    def añadir_libro(self, libro):
+        self.libros[libro.isbn] = libro
+
+    def quitar_libro(self, isbn):
+        if isbn in self.libros:
+            del self.libros[isbn]
+
+    def registrar_usuario(self, usuario):
+        self.usuarios.add(usuario.id_usuario)
+
+    def dar_baja_usuario(self, id_usuario):
+        if id_usuario in self.usuarios:
+            self.usuarios.remove(id_usuario)
+
+    def prestar_libro(self, id_usuario, isbn):
+        if isbn in self.libros and id_usuario in self.usuarios:
+            libro = self.libros.pop(isbn)
+            #Agregar el libro al usuario correspondiente.
+            for usuario in lista_usuarios:
+                if usuario.id_usuario == id_usuario:
+                    usuario.libros_prestados.append(libro)
+            print(f"El libro {libro.titulo} ha sido prestado.")
+        else:
+            print("Libro no disponible o usuario no registrado.")
+
+    def devolver_libro(self, id_usuario, isbn):
+        #Debe buscar primero el libro en los libros prestados por los usuarios.
+        for usuario in lista_usuarios:
+            for libro in usuario.libros_prestados:
+                if libro.isbn == isbn and usuario.id_usuario == id_usuario:
+                    self.libros[isbn] = libro
+                    usuario.libros_prestados.remove(libro)
+                    print(f"El libro {libro.titulo} ha sido devuelto.")
+                    return
+        print("El usuario no tiene ese libro prestado.")
+
+    def buscar_libros(self, criterio, valor):
+        resultados = []
+        for libro in self.libros.values():
+            if criterio == "titulo" and valor.lower() in libro.titulo.lower():
+                resultados.append(libro)
+            elif criterio == "autor" and valor.lower() in " ".join(libro.autor).lower():
+                resultados.append(libro)
+            elif criterio == "categoria" and valor.lower() in libro.categoria.lower():
+                resultados.append(libro)
+        return resultados
+
+    def listar_libros_prestados(self, id_usuario):
+        for usuario in lista_usuarios:
+            if usuario.id_usuario == id_usuario:
+                return usuario.libros_prestados
+        return []
+
+#Ejemplo de uso.
+biblioteca = Biblioteca()
+lista_usuarios = []
+
+libro1 = Libro("Cien años de soledad", ("Gabriel", "García Márquez"), "Ficción", "9780061120084")
+libro2 = Libro("El principito", ("Antoine", "de Saint-Exupéry"), "Fábula", "978-84-9838-148-5")
+
+biblioteca.añadir_libro(libro1)
+biblioteca.añadir_libro(libro2)
+
+usuario1 = Usuario("Juan Pérez", 1)
+usuario2 = Usuario("Maria Garcia", 2)
+
+biblioteca.registrar_usuario(usuario1)
+biblioteca.registrar_usuario(usuario2)
+
+lista_usuarios.append(usuario1)
+lista_usuarios.append(usuario2)
+
+biblioteca.prestar_libro(1, "9780061120084")
+print(biblioteca.listar_libros_prestados(1))
+biblioteca.devolver_libro(1,"9780061120084")
+print(biblioteca.listar_libros_prestados(1))
+print(biblioteca.buscar_libros("autor","Gabriel"))
+Definición de Clases Principales
+
+Libro:
+Atributos:
+titulo (str): Título del libro.
+autor (tuple): Nombre del autor (nombre, apellido).
+categoria (str): Categoría del libro (ej., ficción, ciencia, historia).
+isbn (str): ISBN (Identificador Estándar de Libro Internacional).
+Uso de tupla para autor: Esto asegura que el nombre del autor no se modifique accidentalmente después de la creación del libro.
+Usuario:
+Atributos:
+nombre (str): Nombre del usuario.
+id_usuario (int): Identificador único del usuario.
+libros_prestados (list): Lista de objetos Libro actualmente prestados.
+Biblioteca:
+Atributos:
+libros (dict): Diccionario donde las claves son los ISBNs y los valores son objetos Libro.
+usuarios (set): Conjunto de IDs de usuario registrados.
+2. Funcionalidades Detalladas
+
+Añadir/Quitar Libros:
+añadir_libro(libro): Agrega un objeto Libro al diccionario libros usando el ISBN como clave.
+quitar_libro(isbn): Elimina un libro del diccionario libros usando el ISBN.
+Registrar/Dar de Baja Usuarios:
+registrar_usuario(usuario): Agrega el ID del usuario al conjunto usuarios.
+dar_baja_usuario(id_usuario): Elimina el ID del usuario del conjunto usuarios.
+Prestar/Devolver Libros:
+prestar_libro(id_usuario, isbn):
+Verifica si el libro está disponible (en el diccionario libros).
+Verifica si el usuario está registrado.
+Si ambos son verdaderos, agrega el libro a la lista libros_prestados del usuario y lo elimina del diccionario libros de la biblioteca.
+devolver_libro(id_usuario, isbn):
+Verifica si el usuario tiene el libro prestado.
+Si es verdadero, elimina el libro de la lista libros_prestados del usuario y lo agrega nuevamente al diccionario libros de la biblioteca.
+Buscar Libros:
+buscar_libros(criterio, valor):
+criterio puede ser "titulo", "autor" o "categoria".
+valor es el término de búsqueda.
+Devuelve una lista de libros que coinciden con el criterio y el valor.
+Listar Libros Prestados:
+listar_libros_prestados(id_usuario):
+Devuelve la lista de libros prestados a un usuario específico.
