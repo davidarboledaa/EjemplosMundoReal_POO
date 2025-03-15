@@ -1,0 +1,96 @@
+import tkinter as tk
+
+def main():
+    # Crear la ventana principal
+    ventana = tk.Tk()
+    ventana.title("Mi Aplicación GUI")
+
+    # Configurar la interfaz de usuario
+    configurar_interfaz(ventana)
+
+    # Iniciar el bucle de eventos
+    ventana.mainloop()
+
+def configurar_interfaz(ventana):
+    # Aquí configuraremos los componentes de la interfaz
+    pass
+
+if __name__ == "__main__":
+    main()
+    import tkinter as tk
+
+def main():
+    ventana = tk.Tk()
+    ventana.title("Mi Aplicación GUI")
+    configurar_interfaz(ventana)
+    ventana.mainloop()
+
+def configurar_interfaz(ventana):
+    # Etiqueta y campo de texto para ingresar datos
+    etiqueta_dato = tk.Label(ventana, text="Ingrese un dato:")
+    etiqueta_dato.pack()
+    entrada_dato = tk.Entry(ventana)
+    entrada_dato.pack()
+
+    # Botón para agregar datos
+    boton_agregar = tk.Button(ventana, text="Agregar", command=lambda: agregar_dato(entrada_dato, lista_datos))
+    boton_agregar.pack()
+
+    # Lista para mostrar los datos
+    lista_datos = tk.Listbox(ventana)
+    lista_datos.pack()
+
+    # Botón para limpiar la lista
+    boton_limpiar = tk.Button(ventana, text="Limpiar", command=lambda: limpiar_lista(lista_datos))
+    boton_limpiar.pack()
+
+def agregar_dato(entrada, lista):
+    dato = entrada.get()
+    if dato:
+        lista.insert(tk.END, dato)
+        entrada.delete(0, tk.END)
+
+def limpiar_lista(lista):
+    lista.delete(0, tk.END)
+
+if __name__ == "__main__":
+    main()
+    import tkinter as tk
+
+def main():
+    ventana = tk.Tk()
+    ventana.title("Mi Aplicación GUI")
+    configurar_interfaz(ventana)
+    ventana.mainloop()
+
+def configurar_interfaz(ventana):
+    etiqueta_dato = tk.Label(ventana, text="Ingrese un dato:")
+    etiqueta_dato.pack()
+    entrada_dato = tk.Entry(ventana)
+    entrada_dato.pack()
+    boton_agregar = tk.Button(ventana, text="Agregar", command=lambda: agregar_dato(entrada_dato, lista_datos))
+    boton_agregar.pack()
+    lista_datos = tk.Listbox(ventana)
+    lista_datos.pack()
+    boton_limpiar = tk.Button(ventana, text="Limpiar", command=lambda: limpiar_lista(lista_datos))
+    boton_limpiar.pack()
+
+def agregar_dato(entrada, lista):
+    dato = entrada.get()
+    if dato:
+        lista.insert(tk.END, dato)
+        entrada.delete(0, tk.END)
+
+def limpiar_lista(lista):
+    lista.delete(0, tk.END)
+
+if __name__ == "__main__":
+    main()
+    Explicación del Código
+Importamos la librería tkinter como tk.
+Creamos la ventana principal con tk.Tk() y le asignamos un título.
+Definimos la función configurar_interfaz para crear y colocar los componentes GUI en la ventana.
+Utilizamos tk.Label, tk.Entry, tk.Button y tk.Listbox para crear los componentes necesarios.
+Asociamos las funciones agregar_dato y limpiar_lista a los eventos de clic de los botones mediante el parámetro command.
+Implementamos las funciones agregar_dato y limpiar_lista para manejar la lógica de la aplicación.
+Iniciamos el bucle de eventos con ventana.mainloop().
