@@ -1,0 +1,97 @@
+mi_aplicacion_eventos/
+│
+├── main.py
+├── datepicker.py  (opcional, para el DatePicker personalizado)
+import tkinter as tk
+from tkinter import ttk
+from tkinter import messagebox
+import datetime
+
+class AplicacionEventos:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Gestor de Eventos")
+
+        # Frame para la lista de eventos
+        frame_lista = ttk.Frame(root, padding="10")
+        frame_lista.pack(fill=tk.BOTH, expand=True)
+
+        # Treeview para mostrar eventos
+        self.tree = ttk.Treeview(frame_lista, columns=("Fecha", "Hora", "Descripción"), show="headings")
+        self.tree.heading("Fecha", text="Fecha")
+        self.tree.heading("Hora", text="Hora")
+        self.tree.heading("Descripción", text="Descripción")
+        self.tree.pack(fill=tk.BOTH, expand=True)
+
+        # Frame para la entrada de datos
+        frame_entradas = ttk.Frame(root, padding="10")
+        frame_entradas.pack(fill=tk.X)
+
+        # Entradas de fecha, hora y descripción
+        ttk.Label(frame_entradas, text="Fecha:").grid(row=0, column=0, sticky=tk.W)
+        self.entry_fecha = ttk.Entry(frame_entradas)
+        self.entry_fecha.grid(row=0, column=1)
+
+        ttk.Label(frame_entradas, text="Hora:").grid(row=1, column=0, sticky=tk.W)
+        self.entry_hora = ttk.Entry(frame_entradas)
+        self.entry_hora.grid(row=1, column=1)
+
+        ttk.Label(frame_entradas, text="Descripción:").grid(row=2, column=0, sticky=tk.W)
+        self.entry_descripcion = ttk.Entry(frame_entradas)
+        self.entry_descripcion.grid(row=2, column=1)
+
+        # Frame para los botones
+        frame_botones = ttk.Frame(root, padding="10")
+        frame_botones.pack(fill=tk.X)
+
+        # Botones
+        ttk.Button(frame_botones, text="Agregar Evento", command=self.agregar_evento).pack(side=tk.LEFT)
+        ttk.Button(frame_botones, text="Eliminar Evento", command=self.eliminar_evento).pack(side=tk.LEFT)
+        ttk.Button(frame_botones, text="Salir", command=root.quit).pack(side=tk.LEFT)
+
+    def agregar_evento(self):
+        fecha = self.entry_fecha.get()
+        hora = self.entry_hora.get()
+        descripcion = self.entry_descripcion.get()
+
+        self.tree.insert("", tk.END, values=(fecha, hora, descripcion))
+
+        # Limpiar campos de entrada
+        self.entry_fecha.delete(0, tk.END)
+        self.entry_hora.delete(0, tk.END)
+        self.entry_descripcion.delete(0, tk.END)
+
+    def eliminar_evento(self):
+        seleccion = self.tree.selection()
+        if not seleccion:
+            messagebox.showerror("Error", "Selecciona un evento para eliminar.")
+            return
+
+        respuesta = messagebox.askyesno("Confirmar", "¿Seguro que quieres eliminar el evento seleccionado?")
+        if respuesta:
+            self.tree.delete(seleccion)
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = AplicacionEventos(root)
+    root.mainloop()
+    import tkinter as tk
+from tkinter import ttk
+import calendar
+
+class DatePicker(tk.Toplevel):
+    def __init__(self, parent, entry):
+        super().__init__(parent)
+        self.entry = entry
+        self.cal = calendar.Calendar()
+        self.year = datetime.datetime.now().year
+        self.month = datetime.datetime.now().month
+
+        self.title("Seleccionar Fecha")
+        self.geometry("250x250")
+
+        self.draw_calendar()
+
+    def draw_calendar(self):
+        # ... (Implementación del calendario) ...
+        
