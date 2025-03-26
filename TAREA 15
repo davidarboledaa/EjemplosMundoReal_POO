@@ -1,0 +1,58 @@
+import tkinter as tk
+from tkinter import ttk
+
+class ListaTareasApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Lista de Tareas")
+
+        # Campo de entrada para nuevas tareas
+        self.tarea_entry = ttk.Entry(root, width=40)
+        self.tarea_entry.grid(row=0, column=0, padx=10, pady=10)
+        self.tarea_entry.bind("<Return>", self.agregar_tarea)  # Permite agregar con Enter
+
+        # Botones
+        self.agregar_btn = ttk.Button(root, text="Añadir Tarea", command=self.agregar_tarea)
+        self.agregar_btn.grid(row=0, column=1, padx=5, pady=10)
+
+        self.completar_btn = ttk.Button(root, text="Marcar como Completada", command=self.marcar_completada)
+        self.completar_btn.grid(row=1, column=0, padx=5, pady=5)
+
+        self.eliminar_btn = ttk.Button(root, text="Eliminar Tarea", command=self.eliminar_tarea)
+        self.eliminar_btn.grid(row=1, column=1, padx=5, pady=5)
+
+        # Lista de tareas
+        self.tareas_listbox = tk.Listbox(root, width=60, height=10)
+        self.tareas_listbox.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
+
+        # Scrollbar para la lista
+        self.scrollbar = ttk.Scrollbar(root, orient=tk.VERTICAL, command=self.tareas_listbox.yview)
+        self.scrollbar.grid(row=2, column=2, sticky=(tk.N, tk.S))
+        self.tareas_listbox.config(yscrollcommand=self.scrollbar.set)
+
+    def agregar_tarea(self, event=None):  # Evento opcional para el bind de Enter
+        tarea = self.tarea_entry.get()
+        if tarea:
+            self.tareas_listbox.insert(tk.END, tarea)
+            self.tarea_entry.delete(0, tk.END)
+
+    def marcar_completada(self):
+        try:
+            seleccion = self.tareas_listbox.curselection()[0]
+            tarea = self.tareas_listbox.get(seleccion)
+            self.tareas_listbox.delete(seleccion)
+            self.tareas_listbox.insert(seleccion, "[Completada] " + tarea)
+        except IndexError:
+            pass  # No hay selección
+
+    def eliminar_tarea(self):
+        try:
+            seleccion = self.tareas_listbox.curselection()[0]
+            self.tareas_listbox.delete(seleccion)
+        except IndexError:
+            pass
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ListaTareasApp(root)
+    root.mainloop()
